@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Lest find a product of your interest" />
+
+    <EditText
+        android:id="@+id/search_edit_txt"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:text="search products"/>
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"/>
+
+</LinearLayout>
