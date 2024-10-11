@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.meli_challenge.R
 import com.example.meli_challenge.SearchViewModel
@@ -15,7 +15,8 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: SearchViewModel
+    //private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModels<SearchViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +29,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
+        //viewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
 
         binding.searchBtn.setOnClickListener{
             val query = binding.searchEditTxt.text.toString()
