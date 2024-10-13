@@ -47,7 +47,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:drawable/btn_dropdown"
-        android:popupBackground="@android:color/background_dark"
         app:layout_constraintTop_toBottomOf="@+id/search_edit_txt"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
