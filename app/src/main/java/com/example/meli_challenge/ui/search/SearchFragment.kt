@@ -8,15 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.meli_challenge.R
-import com.example.meli_challenge.SearchViewModel
+import com.example.meli_challenge.ui.products.products_list.ProductsListViewModel
 import com.example.meli_challenge.databinding.FragmentSearchBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    //private lateinit var viewModel: SearchViewModel
-    private val viewModel by viewModels<SearchViewModel>()
+    private val viewModel by viewModels<ProductsListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,7 @@ class SearchFragment : Fragment() {
         binding.searchBtn.setOnClickListener{
             val query = binding.searchEditTxt.text.toString()
 
-            viewModel.searchProducts(query)
+            //viewModel.searchProducts(query)
             findNavController().navigate(R.id.action_searchFragment_to_productsListFragment)
         }
     }
