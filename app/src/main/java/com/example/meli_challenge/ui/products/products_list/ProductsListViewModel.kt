@@ -20,11 +20,11 @@ class ProductsListViewModel @Inject constructor(private val getProductUseCase: G
     val products: StateFlow<List<Product>> = _products
 
 
-    fun searchProducts(query: String) {
+    fun searchProducts(query: String, category: String) {
         viewModelScope.launch {
             // Hilo principal
             withContext(Dispatchers.IO) {
-                val result = getProductUseCase(query)
+                val result = getProductUseCase(query,category)
                 if (result != null) {
                     _products.value = result// Hilo secundario
                 } else {

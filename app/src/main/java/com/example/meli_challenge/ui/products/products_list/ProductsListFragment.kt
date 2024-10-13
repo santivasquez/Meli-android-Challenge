@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.meli_challenge.R
 import com.example.meli_challenge.databinding.FragmentProductsListBinding
@@ -25,7 +26,7 @@ class ProductsListFragment : Fragment() {
 
     private val viewModel: ProductsListViewModel by viewModels()
     private lateinit var productsAdapter: ProductsAdapter
-    //var onProductSelected: ((Product) -> Unit)? = null
+    val args: ProductsListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +41,7 @@ class ProductsListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initList()
         initState()
-        viewModel.searchProducts("dasfsd")
+        viewModel.searchProducts(args.query, args.category)
     }
 
     private fun initList() {
@@ -68,6 +69,6 @@ class ProductsListFragment : Fragment() {
     }
 
     private fun onProductSelected(product: Product){
-        findNavController().navigate(R.id.action_productsListFragment_to_prodtuctDetailFragment)
+        findNavController().navigate(ProductsListFragmentDirections.actionProductsListFragmentToProdtuctDetailFragment(product.id))
     }
 }

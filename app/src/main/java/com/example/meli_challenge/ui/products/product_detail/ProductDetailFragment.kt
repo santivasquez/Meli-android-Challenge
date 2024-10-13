@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.meli_challenge.databinding.FragmentProdtuctDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,7 @@ class ProductDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ProductDetailViewModel by viewModels()
+    private val args: ProductDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +42,7 @@ class ProductDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initState()
+        viewModel.searchProduct(args.productId)
     }
 
     private fun initState(){
