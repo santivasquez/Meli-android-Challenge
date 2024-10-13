@@ -9,6 +9,15 @@ The app should have three screens:
 2. Search results (Products list).
 3. Product detail.
 
+Methodologies and technologies applied:
+1. Android
+2. Kotlin
+3. MVVM
+4. Retrofit
+5. Hilt
+6. NavigationComponent
+7. Unit testing
+
 
 Search Screen:
 
