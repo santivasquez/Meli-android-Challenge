@@ -26,12 +26,16 @@ class ProductsListViewModel @Inject constructor(private val getProductUseCase: G
     fun searchProducts(query: String, category: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = getProductUseCase(query,category)
-                if (result != null) {
-                    _products.value = result
-                    _state.value = ProductsLoadingState.Success(result)
-                } else {
-                    _state.value = ProductsLoadingState.Error("Error")
+                try {
+                    val result = getProductUseCase(query,category)
+                    if (result != null) {
+                        _products.value = result
+                        _state.value = ProductsLoadingState.Success(result)
+                    } else {
+                        _state.value = ProductsLoadingState.Error("--Unknown Error")
+                    }
+                } catch (e: Exception) {
+                    _state.value = ProductsLoadingState.Error(e.message.toString())
                 }
             }
         }

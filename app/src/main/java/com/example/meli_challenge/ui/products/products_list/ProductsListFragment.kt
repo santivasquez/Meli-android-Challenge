@@ -58,12 +58,19 @@ class ProductsListFragment : Fragment() {
                 viewModel.state.collect {
                     when (it) {
                         is ProductsLoadingState.Loading ->  stateIsLoading()
-                        is ProductsLoadingState.Error -> TODO()
+                        is ProductsLoadingState.Error -> stateIsError(it)
                         is ProductsLoadingState.Success -> stateIsSuccess(it)
                     }
                 }
             }
         }
+    }
+
+    private fun stateIsError(state: ProductsLoadingState.Error) {
+        binding.productListRv.visibility = View.GONE
+        binding.notFoundText.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+        binding.notFoundText.text = "Something bad happened: ${state.message}"
     }
 
     private fun stateIsSuccess(state: ProductsLoadingState.Success) {

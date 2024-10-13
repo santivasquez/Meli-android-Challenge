@@ -74,6 +74,9 @@ dependencies {
     implementation (libs.glide)
     kapt (libs.compiler)
 
+    //Mockito
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

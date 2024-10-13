@@ -2,4 +2,12 @@
     <string name="app_name">Meli_challenge</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="product_detail_title">Product detail</string>
+    <string name="product_image">Product image</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="search_results">Search results</string>
+    <string name="products_not_found">We couldn\'t find any products</string>
+    <string name="hello_test">Hello Lest find a product of your interest</string>
+    <string name="search_products">Search products</string>
+    <string name="search">Search</string>
 </resources>
