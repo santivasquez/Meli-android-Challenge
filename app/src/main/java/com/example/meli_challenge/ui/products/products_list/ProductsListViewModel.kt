@@ -19,16 +19,19 @@ class ProductsListViewModel @Inject constructor(private val getProductUseCase: G
     private var _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
 
+    private var _state = MutableStateFlow<ProductsLoadingState>(ProductsLoadingState.Loading)
+    val state: StateFlow<ProductsLoadingState> = _state
+
 
     fun searchProducts(query: String, category: String) {
         viewModelScope.launch {
-            // Hilo principal
             withContext(Dispatchers.IO) {
                 val result = getProductUseCase(query,category)
                 if (result != null) {
-                    _products.value = result// Hilo secundario
+                    _products.value = result
+                    _state.value = ProductsLoadingState.Success(result)
                 } else {
-                    // TODO: Handle error
+                    _state.value = ProductsLoadingState.Error("Error")
                 }
             }
         }

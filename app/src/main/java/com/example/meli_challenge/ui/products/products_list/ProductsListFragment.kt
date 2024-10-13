@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.meli_challenge.R
 import com.example.meli_challenge.databinding.FragmentProductsListBinding
 import com.example.meli_challenge.domain.model.Product
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +25,7 @@ class ProductsListFragment : Fragment() {
 
     private val viewModel: ProductsListViewModel by viewModels()
     private lateinit var productsAdapter: ProductsAdapter
-    val args: ProductsListFragmentArgs by navArgs()
+    private val args: ProductsListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +38,48 @@ class ProductsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initList()
-        initState()
+        initUi()
         viewModel.searchProducts(args.query, args.category)
+    }
+
+    private fun initUi() {
+        binding.icBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        initUiState()
+        initList()
+    }
+
+
+
+    private fun initUiState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is ProductsLoadingState.Loading ->  stateIsLoading()
+                        is ProductsLoadingState.Error -> TODO()
+                        is ProductsLoadingState.Success -> stateIsSuccess(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stateIsSuccess(state: ProductsLoadingState.Success) {
+        binding.progressBar.visibility = View.GONE
+        if (state.products.isEmpty()) {
+            binding.productListRv.visibility = View.GONE
+            binding.notFoundText.visibility = View.VISIBLE
+        } else {
+            binding.productListRv.visibility = View.VISIBLE
+            productsAdapter.updateList(state.products)
+        }
+    }
+
+    private fun stateIsLoading() {
+        binding.productListRv.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun initList() {
@@ -52,23 +90,17 @@ class ProductsListFragment : Fragment() {
         }
     }
 
-    private fun initState() {
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.products.collect {
-                    productsAdapter.updateList(it)
-                }
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun onProductSelected(product: Product){
-        findNavController().navigate(ProductsListFragmentDirections.actionProductsListFragmentToProdtuctDetailFragment(product.id))
+    private fun onProductSelected(product: Product) {
+        findNavController().navigate(
+            ProductsListFragmentDirections.actionProductsListFragmentToProdtuctDetailFragment(
+                product.id
+            )
+        )
     }
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.meli_challenge.databinding.FragmentProdtuctDetailBinding
@@ -40,28 +41,50 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initState()
+        initUi()
+        initUiState()
         viewModel.searchProduct(args.productId)
     }
 
-    private fun initState(){
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.product.collect { product ->
-                    binding.textProductTitle.text = product?.name.toString()
-                    binding.textProductPrice.text = product?.price.toString()
-                    context?.let {
-                        Glide.with(it)
-                            .load(product?.thumbnail)
-                            .dontAnimate()
-                            .into(binding.imageProduct)
-                    }
-
-                }
-            }
+    private fun initUi() {
+        binding.icBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
+
+    private fun initUiState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect {
+                    when (it) {
+                        is DetailLoadingState.Loading ->  stateIsLoading()
+                        is DetailLoadingState.Error -> TODO()
+                        is DetailLoadingState.Success -> stateIsSuccess(it)
+                    }
+            }
+        }
+        } }
+
+    private fun stateIsSuccess(state: DetailLoadingState.Success) {
+        binding.progressBar.visibility = View.GONE
+        binding.scrollView.visibility = View.VISIBLE
+
+        binding.textProductTitle.text = state.product.name
+        binding.textProductPrice.text = state.product.price
+        context?.let {
+            Glide.with(it)
+                .load(state.product.thumbnail)
+                .dontAnimate()
+                .into(binding.imageProduct)
+        }
+    }
+
+    private fun stateIsLoading() {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.scrollView.visibility = View.GONE
+        }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

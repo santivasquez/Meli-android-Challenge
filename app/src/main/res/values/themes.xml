@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Meli_challenge" parent="android:Theme.Material.Light.NoActionBar" />
+    <style  name="Theme.Meli_challenge" parent="android:Theme.Material.Light.NoActionBar">
+    <item name="android:statusBarColor"> @color/light_blue_900 </item>
+</style>
 
     <style name="ThemeOverlay.Meli_challenge.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>

@@ -58,7 +58,6 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.appcompat:appcompat:1.2.0")
     //NavComponent
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)

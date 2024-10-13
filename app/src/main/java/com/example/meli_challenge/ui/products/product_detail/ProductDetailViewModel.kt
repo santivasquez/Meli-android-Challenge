@@ -18,6 +18,9 @@ class ProductDetailViewModel @Inject constructor(private val productsRepository:
     private var _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> = _product
 
+    private var _state = MutableStateFlow<DetailLoadingState>(DetailLoadingState.Loading)
+    val state: StateFlow<DetailLoadingState> = _state
+
 
 
     fun searchProduct(productId: String) {
@@ -26,8 +29,9 @@ class ProductDetailViewModel @Inject constructor(private val productsRepository:
                 val result =  productsRepository.getProductById(productId)
                 if (result != null){
                     _product.value = result
+                    _state.value = DetailLoadingState.Success(result)
                 } else {
-                    // TODO: Handle error
+                    _state.value = DetailLoadingState.Error("Error")
                 }
             }
         }
